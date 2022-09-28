@@ -1,13 +1,45 @@
-<style>
-</style>
-
 <script lang="ts">
-  import { writable } from 'svelte/store'
+  import FeedbackForm from './components/FeedbackForm.svelte'
+  import FeedbackList from './components/FeedbackList.svelte'
+  import FeedbackStats from './components/FeedbackStats.svelte'
 
-  const store = writable([])
-  $store.length // incorrect no-unsafe-member-access error
+  let feedback = [
+    {
+      id: 1,
+      rating: 5,
+      text: 'Exercitation exercitation aute consectetur occaecat reprehenderit culpa eiusmod excepteur excepteur do eiusmod adipisicing.'
+    },
+    {
+      id: 2,
+      rating: 7,
+      text: 'Exercitation exercitation aute consectetur occaecat reprehenderit culpa eiusmod excepteur excepteur do eiusmod adipisicing.'
+    },
+    {
+      id: 3,
+      rating: 1,
+      text: 'Exercitation exercitation aute consectetur occaecat reprehenderit culpa eiusmod excepteur excepteur do eiusmod adipisicing.'
+    },
+    {
+      id: 4,
+      rating: 9,
+      text: 'Exercitation exercitation aute consectetur occaecat reprehenderit culpa eiusmod excepteur excepteur do eiusmod adipisicing.'
+    }
+  ]
 
-  export let name: string
+  $: count = feedback.length
+  $: average = feedback.reduce((a, { rating }) => a + rating, 0) / feedback.length
+
+  const handleDeleteFeedback = (e: CustomEvent<number>) =>
+    (feedback = feedback.filter((fb) => fb.id !== e.detail))
+
+  const handleCreateFeedback = (e: CustomEvent) => {
+    console.log(e.detail)
+    feedback = [e.detail, ...feedback]
+  }
 </script>
 
-<main />
+<main class="container">
+  <FeedbackForm on:create-feedback={handleCreateFeedback} />
+  <FeedbackStats {count} {average} />
+  <FeedbackList {feedback} on:delete-feedback={handleDeleteFeedback} />
+</main>
