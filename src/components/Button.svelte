@@ -20,7 +20,7 @@
   }
 
   .primary {
-    background-color: #202142;
+    background: #202142;
   }
 
   .secondary {
