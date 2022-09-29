@@ -1,14 +1,11 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
-
+  import { FeedbackStore } from '../stores/stores'
   import Card from './Card.svelte'
   import type { IFeedback } from '../interfaces/interfaces'
   export let item = {} as IFeedback
 
-  const dispatch = createEventDispatcher()
-
-  const handleDelete = (id: number) => {
-    dispatch('delete-feedback', id)
+  const handleDelete = (id: string) => {
+    FeedbackStore.update((current) => current.filter((item) => item.id !== id))
   }
 </script>
 

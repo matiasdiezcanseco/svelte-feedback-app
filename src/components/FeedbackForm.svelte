@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
   import { v4 as uuidv4 } from 'uuid'
+  import { FeedbackStore } from '../stores/stores'
   import Button from './Button.svelte'
   import Card from './Card.svelte'
   import RatingSelect from './RatingSelect.svelte'
@@ -10,8 +10,6 @@
   let btnDisabled = true
   let min = 10
   let message = ''
-
-  const dispatch = createEventDispatcher()
 
   const handleInput = () => {
     if (text.trim().length <= min) {
@@ -25,13 +23,15 @@
 
   const handleSelect = (e: CustomEvent) => (rating = e.detail)
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = () => {
     if (text.trim().length <= min) return
-    dispatch('create-feedback', {
+    const newFeedback = {
       id: uuidv4(),
       text,
       rating: +rating
-    })
+    }
+    FeedbackStore.update((current) => [newFeedback, ...current])
+    text = ''
   }
 </script>
 

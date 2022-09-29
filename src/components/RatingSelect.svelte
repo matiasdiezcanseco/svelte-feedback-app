@@ -18,7 +18,7 @@
   const dispatch = createEventDispatcher()
 
   const onChange = (e: any) => {
-    selected = e.currentTarget?.value || 10
+    selected = e.currentTarget.value || 10
     dispatch('rating-select', selected)
   }
 </script>
